@@ -19,7 +19,7 @@ class Mastermind
   end
 
   def computer_create_code
-    self.code = "blue"
+    self.code = 'blue'
   end
 
   def player_guess_code
@@ -32,7 +32,37 @@ class Mastermind
   end
 
   def show_turn_results
-    puts 'these are turn results'
+    puts 'these are turn results'.yellow
+  end
+end
+
+class String
+  def colorize(color_code)
+    "\e[1;#{color_code}m#{self}\e[0m"
+  end
+
+  def red
+    colorize(31)
+  end
+
+  def green
+    colorize(32)
+  end
+
+  def yellow
+    colorize(33)
+  end
+
+  def blue
+    colorize(34)
+  end
+
+  def pink
+    colorize(35)
+  end
+
+  def light_blue
+    colorize(36)
   end
 end
 
