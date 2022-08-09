@@ -29,7 +29,13 @@ class Mastermind
   end
 
   def sanitize_input
-    player_guess.downcase.split(' ')
+    guess_array = player_guess.downcase.split(' ')
+    until guess_array.all? { |element| guess_options.include?(element) } && (guess_array.length == 4)
+      puts "Sorry, that's not a valid guess. Please provide four colors separated by spaces."
+      puts 'Valid colors: red | blue | green | yellow | magenta | cyan'
+      guess_array = gets.chomp.downcase.split(' ')
+    end
+    guess_array
   end
 
   def check_guess
