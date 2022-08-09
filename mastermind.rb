@@ -1,10 +1,11 @@
 class Mastermind
-  attr_accessor :code, :player_guess, :guess_count
+  attr_accessor :code, :player_guess, :guess_count, :guess_options
 
   def initialize
     @code = Array.new(4)
     @player_guess = Array.new(4)
     @guess_count = 0
+    @guess_options = %w[red blue green yellow magenta cyan]
     start_game
   end
 
@@ -19,7 +20,7 @@ class Mastermind
   end
 
   def computer_create_code
-    self.code = 'blue'
+    self.code = %w[blue green red yellow]
   end
 
   def player_guess_code
@@ -27,12 +28,17 @@ class Mastermind
     self.player_guess = gets.chomp
   end
 
+  def sanitize_input
+    player_guess.downcase.split(' ')
+  end
+
   def check_guess
-    puts player_guess == code
+    player_guess = sanitize_input
+    puts "guess matches computer code? #{player_guess == code}"
   end
 
   def show_turn_results
-    puts 'these are turn results'.yellow
+    puts 'these are turn results'
   end
 end
 
