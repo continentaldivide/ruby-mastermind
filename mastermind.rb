@@ -36,6 +36,11 @@ class Mastermind
       self.player_guess = gets.chomp
     end
     sanitize_input
+    while guess_repeat_check == true
+      puts "You've already guessed that.  Please enter a new guess."
+      self.player_guess = gets.chomp
+      sanitize_input
+    end
     prior_guesses.push(player_guess)
     self.guess_count += 1
   end
@@ -48,6 +53,10 @@ class Mastermind
       guess_array = gets.chomp.downcase.split(' ')
     end
     self.player_guess = guess_array
+  end
+
+  def guess_repeat_check
+    prior_guesses.include?(player_guess)
   end
 
   def check_guess
