@@ -1,5 +1,6 @@
 class Mastermind
-  attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :guess_options, :game_over
+  attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :game_over
+  attr_reader :guess_options
 
   def initialize
     @code = Array.new(4)
@@ -53,7 +54,7 @@ class Mastermind
     guess_array = player_guess.downcase.split(' ')
     until guess_array.all? { |element| guess_options.include?(element) } && (guess_array.length == 4)
       puts "Sorry, that's not a valid guess. Please provide four colors separated by spaces."
-      puts 'Valid colors: red | blue | green | yellow | magenta | cyan'
+      puts "Valid colors: #{guess_options.join(' | ')}"
       guess_array = gets.chomp.downcase.split(' ')
     end
     self.player_guess = guess_array
