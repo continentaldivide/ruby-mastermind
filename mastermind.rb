@@ -1,11 +1,12 @@
 class Mastermind
-  attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :game_over
+  attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :game_over, :checker_code, :checker_guess
   attr_reader :guess_options
 
   def initialize
     @code = Array.new(4)
     @player_guess = Array.new(4)
     @prior_guesses = []
+    @checker_code = []
     @guess_count = 0
     @guess_options = %w[red blue green yellow magenta cyan]
     @game_over = false
@@ -20,6 +21,7 @@ class Mastermind
     until game_over == true
       player_turn
       check_guess
+      give_guess_feedback
       game_over ? show_game_results : show_turn_results
     end
   end
@@ -65,6 +67,20 @@ class Mastermind
   end
 
   def check_guess
+    checker_code = code.clone
+    checker_guess = player_guess.clone
+    black_pegs = 0
+    white_pegs = 0
+    checker_guess.each_with_index do |element, index|
+      if element == checker_code[index]
+        black_pegs += 1
+        checker_code[index] = nil
+      end
+    end
+    puts black_pegs
+  end
+
+  def give_guess_feedback
     puts "guess matches computer code? #{player_guess == code}"
     (self.game_over = true) if (player_guess == code) || guess_count == 3
   end
