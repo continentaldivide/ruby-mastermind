@@ -29,20 +29,24 @@ class Mastermind
 
   def player_turn
     puts "Please enter your guess. Enter 'history' to see prior guesses."
-    self.player_guess = gets.chomp
+    get_guess
     if player_guess == 'history'
       show_prior_guesses
       puts 'Please enter your guess.'
-      self.player_guess = gets.chomp
+      get_guess
     end
     sanitize_input
     while guess_repeat_check == true
       puts "You've already guessed that.  Please enter a new guess."
-      self.player_guess = gets.chomp
+      get_guess
       sanitize_input
     end
     prior_guesses.push(player_guess)
     self.guess_count += 1
+  end
+
+  def get_guess
+    self.player_guess = gets.chomp
   end
 
   def sanitize_input
