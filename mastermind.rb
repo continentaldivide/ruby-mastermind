@@ -27,7 +27,7 @@ class Mastermind
   end
 
   def computer_create_code
-    self.code = %w[blue green red yellow]
+    self.code = %w[blue blue red red]
   end
 
   def player_turn
@@ -72,12 +72,20 @@ class Mastermind
     black_pegs = 0
     white_pegs = 0
     checker_guess.each_with_index do |element, index|
-      if element == checker_code[index]
-        black_pegs += 1
-        checker_code[index] = nil
-      end
+      next unless element == checker_code[index]
+
+      black_pegs += 1
+      checker_code.slice!(index)
+      checker_guess.slice!(index)
+      redo
     end
-    puts black_pegs
+    puts "Black pegs: #{black_pegs}"
+    checker_code.sort!
+    checker_guess.sort!
+    checker_guess.each_with_index do |element, index|
+      white_pegs += 1 if element == checker_code[index]
+    end
+    puts "White pegs: #{white_pegs}"
   end
 
   def give_guess_feedback
