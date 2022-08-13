@@ -91,7 +91,15 @@ class Mastermind
       white_pegs += 1 if element == checker_code[index]
     end
     puts "White pegs: #{white_pegs}"
-    prior_guesses[:results].push(black_pegs)
+    prior_guesses[:results].push build_results(black_pegs, white_pegs)
+    # prior_guesses[:results].push(black_pegs)
+  end
+
+  def build_results(black_pegs, white_pegs)
+    str = ''
+    black_pegs.times { str += '●'.green }
+    white_pegs.times { str += '●'.yellow }
+    str
   end
 
   def give_guess_feedback
@@ -105,14 +113,15 @@ class Mastermind
     else
       puts 'Here are your prior guesses:'
       prior_guesses[:guesses].each_with_index do |element, index|
-        puts "##{index + 1}: #{element.join(' ')} | " + 'dogs'.bg_cyan
+        puts "##{index + 1}: #{element.join(' ')} | " + prior_guesses[:results][index].to_s
       end
-      prior_guesses[:results].each_with_index { |element, index| puts "##{index + 1}: #{element} black pegs".bg_cyan }
+      # prior_guesses[:results].each_with_index { |element, index| puts "##{index + 1}: #{element} black pegs".bg_cyan }
     end
   end
 
   def show_turn_results
     puts 'these are turn results'
+    puts prior_guesses[:results].last
   end
 
   def show_game_results
@@ -123,6 +132,10 @@ end
 class String
   def colorize(color_code)
     "\e[1;#{color_code}m#{self}\e[0m"
+  end
+
+  def black
+    "\e[30m#{self}\e[0m"
   end
 
   def red
@@ -147,6 +160,10 @@ class String
 
   def light_blue
     colorize(36)
+  end
+
+  def white
+    colorize(37)
   end
 
   def bg_cyan
