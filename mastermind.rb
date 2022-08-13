@@ -71,23 +71,21 @@ class Mastermind
     checker_guess = player_guess.clone
     black_pegs = 0
     white_pegs = 0
-    loop_times = 0
-    white_code = []
-    white_guess = []
-    checker_guess.each_with_index do |element, index|
-      loop_times += 1
-      if element == checker_code[index]
+    i = 0
+    while i < checker_guess.length
+      if checker_guess[i] == checker_code[i]
         black_pegs += 1
+        checker_code.slice!(i)
+        checker_guess.slice!(i)
       else
-        white_code.push(checker_code[index])
-        white_guess.push(checker_guess[index])
+        i += 1
       end
     end
     puts "Black pegs: #{black_pegs}"
-    white_code.sort!
-    white_guess.sort!
-    white_guess.each_with_index do |element, index|
-      white_pegs += 1 if element == white_code[index]
+    checker_code.sort!
+    checker_guess.sort!
+    checker_guess.each_with_index do |element, index|
+      white_pegs += 1 if element == checker_code[index]
     end
     puts "White pegs: #{white_pegs}"
   end
