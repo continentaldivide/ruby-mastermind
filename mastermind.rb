@@ -5,7 +5,10 @@ class Mastermind
   def initialize
     @code = Array.new(4)
     @player_guess = Array.new(4)
-    @prior_guesses = []
+    @prior_guesses = {
+      guesses: [],
+      results: []
+    }
     @checker_code = []
     @guess_count = 0
     @guess_options = %w[red blue green yellow magenta cyan]
@@ -44,7 +47,7 @@ class Mastermind
       get_guess
       sanitize_input
     end
-    prior_guesses.push(player_guess)
+    prior_guesses[:guesses].push(player_guess)
     self.guess_count += 1
   end
 
@@ -88,6 +91,7 @@ class Mastermind
       white_pegs += 1 if element == checker_code[index]
     end
     puts "White pegs: #{white_pegs}"
+    prior_guesses[:results].push(black_pegs)
   end
 
   def give_guess_feedback
@@ -100,7 +104,10 @@ class Mastermind
       puts 'No guesses yet.'
     else
       puts 'Here are your prior guesses:'
-      prior_guesses.each_with_index { |element, index| puts "##{index + 1}: #{element.join(' ')}" }
+      prior_guesses[:guesses].each_with_index do |element, index|
+        puts "##{index + 1}: #{element.join(' ')} | " + 'dogs'.bg_cyan
+      end
+      prior_guesses[:results].each_with_index { |element, index| puts "##{index + 1}: #{element} black pegs".bg_cyan }
     end
   end
 
@@ -140,6 +147,10 @@ class String
 
   def light_blue
     colorize(36)
+  end
+
+  def bg_cyan
+    "\e[46m#{self}\e[0m"
   end
 end
 
