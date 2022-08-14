@@ -25,7 +25,7 @@ class Mastermind
       player_turn
       check_guess
       give_guess_feedback
-      game_over ? show_game_results : show_turn_results
+      show_game_results if game_over
     end
   end
 
@@ -99,11 +99,12 @@ class Mastermind
     str = ''
     black_pegs.times { str += '●'.green }
     white_pegs.times { str += '●'.yellow }
+    (4 - black_pegs - white_pegs).times { str << 'o' }
     str
   end
 
   def give_guess_feedback
-    puts "guess matches computer code? #{player_guess == code}"
+    puts prior_guesses[:results].last
     (self.game_over = true) if (player_guess == code) || guess_count == 3
   end
 
@@ -117,11 +118,6 @@ class Mastermind
       end
       # prior_guesses[:results].each_with_index { |element, index| puts "##{index + 1}: #{element} black pegs".bg_cyan }
     end
-  end
-
-  def show_turn_results
-    puts 'these are turn results'
-    puts prior_guesses[:results].last
   end
 
   def show_game_results
