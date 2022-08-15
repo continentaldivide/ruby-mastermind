@@ -3,7 +3,7 @@ class Mastermind
   attr_reader :guess_options
 
   def initialize
-    @code = Array.new(4)
+    @code = []
     @player_guess = Array.new(4)
     @prior_guesses = {
       guesses: [],
@@ -30,7 +30,7 @@ class Mastermind
   end
 
   def computer_create_code
-    self.code = %w[blue blue red red]
+    4.times { code.push(guess_options.sample) }
   end
 
   def player_turn
@@ -84,15 +84,12 @@ class Mastermind
         i += 1
       end
     end
-    puts "Black pegs: #{black_pegs}"
     checker_code.sort!
     checker_guess.sort!
     checker_guess.each_with_index do |element, index|
       white_pegs += 1 if element == checker_code[index]
     end
-    puts "White pegs: #{white_pegs}"
     prior_guesses[:results].push build_results(black_pegs, white_pegs)
-    # prior_guesses[:results].push(black_pegs)
   end
 
   def build_results(black_pegs, white_pegs)
@@ -105,7 +102,7 @@ class Mastermind
 
   def give_guess_feedback
     puts prior_guesses[:results].last
-    (self.game_over = true) if (player_guess == code) || guess_count == 3
+    (self.game_over = true) if (player_guess == code) || guess_count == 12
   end
 
   def show_prior_guesses
@@ -116,7 +113,6 @@ class Mastermind
       prior_guesses[:guesses].each_with_index do |element, index|
         puts "##{index + 1}: #{element.join(' ')} | " + prior_guesses[:results][index].to_s
       end
-      # prior_guesses[:results].each_with_index { |element, index| puts "##{index + 1}: #{element} black pegs".bg_cyan }
     end
   end
 
