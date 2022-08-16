@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 class Mastermind
   attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :game_over, :checker_code, :checker_guess
   attr_reader :guess_options
@@ -30,7 +32,8 @@ class Mastermind
   end
 
   def computer_create_code
-    4.times { code.push(guess_options.sample) }
+    # 4.times { code.push(guess_options.sample) }
+    self.code = %w[red red red green]
   end
 
   def player_turn
@@ -39,6 +42,9 @@ class Mastermind
     if player_guess == 'history'
       show_prior_guesses
       puts 'Please enter your guess.'
+      get_guess
+    elsif player_guess == 'code'
+      puts code
       get_guess
     end
     sanitize_input
@@ -84,12 +90,25 @@ class Mastermind
         i += 1
       end
     end
-    checker_code.sort!
-    checker_guess.sort!
-    checker_guess.each_with_index do |element, index|
-      white_pegs += 1 if element == checker_code[index]
-    end
+    # checker_code.sort!
+    # checker_guess.sort!
+    # checker_guess.each_with_index do |element, index|
+    #   white_pegs += 1 if element == checker_code[index]
+    # end
+    white_pegs = count_white_pegs(checker_code, checker_guess)
     prior_guesses[:results].push build_results(black_pegs, white_pegs)
+  end
+
+  def count_white_pegs(checker_code, checker_guess)
+    white_pegs = 0
+    comp_array = Array.new(6) { Array.new(2) }
+    guess_options.each_with_index do |element, index|
+      comp_array[index].push(checker_code.count(element)) # broken -- need a workaround for this adding nils
+      comp_array[index].push(checker_guess.count(element))
+    end
+    comp_array.each { |element| white_pegs += element.min }
+    puts white_pegs
+    white_pegs
   end
 
   def build_results(black_pegs, white_pegs)
@@ -118,6 +137,7 @@ class Mastermind
 
   def show_game_results
     puts 'these are game results'
+    puts "Code was: #{code.join(' ')}"
   end
 end
 
