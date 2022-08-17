@@ -74,8 +74,13 @@ class Mastermind
   def check_guess
     checker_code = code.clone
     checker_guess = player_guess.clone
+    black_pegs = count_black_pegs(checker_code, checker_guess)
+    white_pegs = count_white_pegs(checker_code, checker_guess)
+    prior_guesses[:results].push build_results(black_pegs, white_pegs)
+  end
+
+  def count_black_pegs(checker_code, checker_guess)
     black_pegs = 0
-    white_pegs = 0
     i = 0
     while i < checker_guess.length
       if checker_guess[i] == checker_code[i]
@@ -86,8 +91,7 @@ class Mastermind
         i += 1
       end
     end
-    white_pegs = count_white_pegs(checker_code, checker_guess)
-    prior_guesses[:results].push build_results(black_pegs, white_pegs)
+    black_pegs
   end
 
   def count_white_pegs(checker_code, checker_guess)
@@ -115,7 +119,7 @@ class Mastermind
   end
 
   def show_prior_guesses
-    if guess_count == 0
+    if guess_count.zero?
       puts 'No guesses yet.'
     else
       puts 'Here are your prior guesses:'
