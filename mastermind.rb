@@ -125,7 +125,7 @@ class Mastermind
     else
       puts 'Here are your prior guesses:'
       prior_guesses[:guesses].each_with_index do |element, index|
-        puts "##{index + 1}: #{element.join(' ')} | " + prior_guesses[:results][index].to_s
+        puts "##{index + 1}: #{element.join(' ')}".ljust(36, ' ') + " | #{prior_guesses[:results][index]}"
       end
     end
   end
