@@ -32,8 +32,7 @@ class Mastermind
   end
 
   def computer_create_code
-    # 4.times { code.push(guess_options.sample) }
-    self.code = %w[red red red green]
+    4.times { code.push(guess_options.sample) }
   end
 
   def player_turn
@@ -42,9 +41,6 @@ class Mastermind
     if player_guess == 'history'
       show_prior_guesses
       puts 'Please enter your guess.'
-      get_guess
-    elsif player_guess == 'code'
-      puts code
       get_guess
     end
     sanitize_input
@@ -102,7 +98,6 @@ class Mastermind
       comp_array[index].push(checker_guess.count(element))
     end
     comp_array.each { |element| white_pegs += element.min }
-    puts white_pegs
     white_pegs
   end
 
