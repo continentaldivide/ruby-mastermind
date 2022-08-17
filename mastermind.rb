@@ -68,7 +68,7 @@ class Mastermind
   end
 
   def guess_repeat_check
-    prior_guesses.include?(player_guess)
+    prior_guesses[:guesses].include?(player_guess)
   end
 
   def check_guess
