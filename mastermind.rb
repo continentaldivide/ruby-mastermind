@@ -90,20 +90,15 @@ class Mastermind
         i += 1
       end
     end
-    # checker_code.sort!
-    # checker_guess.sort!
-    # checker_guess.each_with_index do |element, index|
-    #   white_pegs += 1 if element == checker_code[index]
-    # end
     white_pegs = count_white_pegs(checker_code, checker_guess)
     prior_guesses[:results].push build_results(black_pegs, white_pegs)
   end
 
   def count_white_pegs(checker_code, checker_guess)
     white_pegs = 0
-    comp_array = Array.new(6) { Array.new(2) }
+    comp_array = Array.new(6) { Array.new(0) }
     guess_options.each_with_index do |element, index|
-      comp_array[index].push(checker_code.count(element)) # broken -- need a workaround for this adding nils
+      comp_array[index].push(checker_code.count(element))
       comp_array[index].push(checker_guess.count(element))
     end
     comp_array.each { |element| white_pegs += element.min }
