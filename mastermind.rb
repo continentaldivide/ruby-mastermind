@@ -23,6 +23,7 @@ class Mastermind
   def start_game
     computer_create_code
     self.guess_count = 0
+    startup_text
     until game_over == true
       player_turn
       check_guess
@@ -35,25 +36,34 @@ class Mastermind
     4.times { code.push(guess_options.sample) }
   end
 
+  def startup_text
+    puts 'PH.  Will ask the player if they need instructions, if yes give instructions if no advance to game.'
+    # if yes give_instructions
+    # if no puts "Please enter your guess. Enter 'history' to see prior guesses."
+  end
+
   def player_turn
-    puts "Please enter your guess. Enter 'history' to see prior guesses."
-    get_guess
+    retrieve_input
     if player_guess == 'history'
       show_prior_guesses
       puts 'Please enter your guess.'
-      get_guess
+      retrieve_input
     end
     sanitize_input
     while guess_repeat_check == true
       puts "You've already guessed that.  Please enter a new guess."
-      get_guess
+      retrieve_input
       sanitize_input
     end
     prior_guesses[:guesses].push(player_guess)
     self.guess_count += 1
   end
 
-  def get_guess
+  def give_instructions
+    puts 'These are the instructions.'
+  end
+
+  def retrieve_input
     self.player_guess = gets.chomp
   end
 
