@@ -38,8 +38,18 @@ class Mastermind
 
   def startup_text
     puts 'PH.  Will ask the player if they need instructions, if yes give instructions if no advance to game.'
+    puts 'press 1 for instructions'
+    puts 'press 2 to continue'
+    input = ''
+    input = gets.chomp until %w[1 2].include?(input)
+    input == '1' ? give_instructions : (puts 'go ahead and guess')
     # if yes give_instructions
     # if no puts "Please enter your guess. Enter 'history' to see prior guesses."
+  end
+
+  def give_instructions
+    puts 'these are instructions'
+    puts 'go ahead and guess'
   end
 
   def player_turn
@@ -57,10 +67,6 @@ class Mastermind
     end
     prior_guesses[:guesses].push(player_guess)
     self.guess_count += 1
-  end
-
-  def give_instructions
-    puts 'These are the instructions.'
   end
 
   def retrieve_input
