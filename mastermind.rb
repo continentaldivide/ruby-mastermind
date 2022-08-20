@@ -5,6 +5,7 @@ class Mastermind
   attr_reader :guess_options
 
   def initialize
+    startup_text
     play_game until play_again == false
   end
 
@@ -13,7 +14,6 @@ class Mastermind
   def play_game
     set_variables
     computer_create_code
-    startup_text
     until game_over == true
       player_turn
       check_guess
@@ -48,17 +48,16 @@ class Mastermind
     puts 'press 2 to continue'
     input = ''
     input = gets.chomp until %w[1 2].include?(input)
-    input == '1' ? give_instructions : (puts 'go ahead and guess')
-    # if yes give_instructions
-    # if no puts "Please enter your guess. Enter 'history' to see prior guesses."
+    input == '1' ? give_instructions : (puts "Awesome, let's get started.")
   end
 
   def give_instructions
     puts 'these are instructions'
-    puts 'go ahead and guess'
+    puts "Let's get started."
   end
 
   def player_turn
+    puts 'Please enter your guess.'
     retrieve_input
     if player_guess == 'history'
       show_prior_guesses
@@ -156,7 +155,12 @@ class Mastermind
   end
 
   def check_if_playing_again
-    self.play_again = false
+    puts 'Would you like to play another round?'
+    puts '1 to play again'
+    puts '2 to exit'
+    input = ''
+    input = gets.chomp until %w[1 2].include?(input)
+    input == '1' ? return : self.play_again = false
   end
 end
 
