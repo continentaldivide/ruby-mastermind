@@ -1,39 +1,45 @@
 require 'pry-byebug'
 
 class Mastermind
-  attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :game_over, :checker_code, :checker_guess
+  attr_accessor :code, :player_guess, :prior_guesses, :guess_count, :game_over, :play_again
   attr_reader :guess_options
 
   def initialize
+    play_game until play_again == false
+  end
+
+  private
+
+  def play_game
+    set_variables
+    computer_create_code
+    startup_text
+    until game_over == true
+      player_turn
+      check_guess
+      give_guess_feedback
+      (self.game_over = true) if (player_guess == code) || guess_count == 12
+    end
+    show_game_results
+    check_if_playing_again
+  end
+
+  def set_variables
     @code = []
     @player_guess = Array.new(4)
     @prior_guesses = {
       guesses: [],
       results: []
     }
-    @checker_code = []
     @guess_count = 0
     @guess_options = %w[red blue green yellow magenta cyan]
     @game_over = false
-    start_game
-  end
-
-  private
-
-  def start_game
-    computer_create_code
-    self.guess_count = 0
-    startup_text
-    until game_over == true
-      player_turn
-      check_guess
-      give_guess_feedback
-      show_game_results if game_over
-    end
+    @play_again = true
   end
 
   def computer_create_code
-    4.times { code.push(guess_options.sample) }
+    self.code = %w[red red red red]
+    # 4.times { code.push(guess_options.sample) }
   end
 
   def startup_text
@@ -131,7 +137,6 @@ class Mastermind
 
   def give_guess_feedback
     puts prior_guesses[:results].last
-    (self.game_over = true) if (player_guess == code) || guess_count == 12
   end
 
   def show_prior_guesses
@@ -148,6 +153,10 @@ class Mastermind
   def show_game_results
     puts 'these are game results'
     puts "Code was: #{code.join(' ')}"
+  end
+
+  def check_if_playing_again
+    self.play_again = false
   end
 end
 
