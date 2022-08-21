@@ -38,22 +38,36 @@ class Mastermind
   end
 
   def computer_create_code
-    self.code = %w[red red red red]
-    # 4.times { code.push(guess_options.sample) }
+    4.times { code.push(guess_options.sample) }
   end
 
   def startup_text
-    puts 'PH.  Will ask the player if they need instructions, if yes give instructions if no advance to game.'
-    puts 'press 1 for instructions'
-    puts 'press 2 to continue'
+    puts "Welcome to Mastermind!  Would you like to see the game's instructions, or are you ready to jump right in?"
+    puts ''
+    puts '1: instructions'
+    puts '2: start playing'
     input = ''
     input = gets.chomp until %w[1 2].include?(input)
-    input == '1' ? give_instructions : (puts "Awesome, let's get started.")
+    input == '1' ? give_instructions : (puts "Awesome, let's get started!")
   end
 
   def give_instructions
-    puts 'these are instructions'
-    puts "Let's get started."
+    puts 'In Mastermind, one player creates a simple code and the other player has twelve chances to guess it.'
+    puts 'The code is four colors, chosen from six available options: red, yellow, blue, green, cyan, and magenta.'
+    puts "Colors can repeat within the code.  One example code: 'red blue green blue.'  Another: 'cyan cyan cyan cyan.'"
+    puts ''
+    puts 'Each turn after the guesser guesses, they get some feedback about how close their guess was to being right.'
+    puts "For each color that was correct AND in the right spot, they get a green dot: #{'●'.green}"
+    puts "For each color that is present in the code, but not in the right place, they get a yellow dot: #{'●'.yellow}"
+    puts ''
+    print "Example: if the code is 'red red green blue' and you guess 'green red yellow yellow,' you'll see this: "
+    puts "#{'●'.green}#{'●'.yellow}oo"
+    puts "That's one green dot for guessing 'red,' which is correct and in the right spot -- and one "
+    puts "yellow dot for guessing 'green,' which IS in the code but isn't the first color."
+    puts ''
+    puts "While you're playing, you can enter 'history' if you'd like to see a list of your guesses so far."
+    puts ''
+    print "Alright -- let's get started!  "
   end
 
   def player_turn
@@ -150,14 +164,14 @@ class Mastermind
   end
 
   def show_game_results
-    puts 'these are game results'
-    puts "Code was: #{code.join(' ')}"
+    puts 'Placeholder game results (will celebrate if you won or commiserate if you lost)'
+    puts "The code for this round was: #{code.join(' ')}"
   end
 
   def check_if_playing_again
     puts 'Would you like to play another round?'
-    puts '1 to play again'
-    puts '2 to exit'
+    puts '1: play again'
+    puts '2: exit program'
     input = ''
     input = gets.chomp until %w[1 2].include?(input)
     input == '1' ? return : self.play_again = false
