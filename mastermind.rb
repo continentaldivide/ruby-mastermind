@@ -165,8 +165,12 @@ class Mastermind
   end
 
   def show_game_results
-    puts 'Placeholder game results (will celebrate if you won or commiserate if you lost)'
-    puts "The code for this round was: #{code.join(' ')}"
+    if player_guess != code
+      puts "Ah nuts, you're out of guesses!"
+      puts "The code for this round was: #{code.join(' ')}"
+    else
+      puts 'Great job -- you cracked the code!'
+    end
   end
 
   def check_if_playing_again
