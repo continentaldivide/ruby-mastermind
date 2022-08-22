@@ -71,6 +71,7 @@ class Mastermind
     print "Alright -- let's get started!  "
   end
 
+  # needs to be refactored
   def player_turn
     puts 'Please enter your guess.'
     retrieve_input
@@ -93,6 +94,7 @@ class Mastermind
     self.player_guess = gets.chomp
   end
 
+  # side effects -- needs to be refactored
   def sanitize_input
     guess_array = player_guess.downcase.split(' ')
     until guess_array.all? { |element| guess_options.include?(element) } && (guess_array.length == 4)
@@ -159,6 +161,7 @@ class Mastermind
     else
       puts 'Here are your prior guesses:'
       prior_guesses[:guesses].each_with_index do |element, index|
+        # right-aligns the 'history' pegs to accommodate the max-possible guess length (4x magenta on guess 10/11)
         puts "##{index + 1}: #{element.join(' ')}".ljust(36, ' ') + " | #{prior_guesses[:results][index]}"
       end
     end
